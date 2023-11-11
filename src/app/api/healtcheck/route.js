@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/utils/mongoose";
+import { connectDB } from "@/utils/mongoose";
 import { NextResponse } from "next/server";
 
 export function GET() {
