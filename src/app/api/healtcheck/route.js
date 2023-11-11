@@ -1,7 +1,9 @@
-import {NextResponse} from 'next/server';
+import { connectDB } from "@/app/utils/mongoose";
+import { NextResponse } from "next/server";
 
 export function GET() {
-    return NextResponse.json({
-        message: "hello world!"
-    })
+  connectDB();
+  return NextResponse.json({
+    message: "hello world!",
+  });
 }
