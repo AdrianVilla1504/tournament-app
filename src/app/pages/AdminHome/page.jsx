@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -8,12 +7,12 @@ import HeroHomePage from "@/components/HeroHomePage";
 import TournamentCard from "@/components/TournamentCard";
 import Navbar from "@/components/Navbar";
 
-async function HomePage() {
+async function AdminHome() {
   const user = {
-    _id: 1,
-    name: "hugo",
-    email: "hugo@gmail.com",
-    role: "USER",
+    _id: 2,
+    name: "nathan",
+    email: "nathan@gmail.com",
+    role: "ADMIN",
   };
 
   const tournaments = await get_tournaments();
@@ -55,4 +54,4 @@ async function HomePage() {
   );
 }
 
-export default HomePage;
+export default AdminHome;
