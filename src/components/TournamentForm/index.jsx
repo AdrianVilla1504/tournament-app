@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -17,7 +18,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { create_new_tournament } from "@/services/tournaments";
+
 export default function SignUp() {
+  const router = useRouter();
+
   const [beggining_date, set_beggining_date] = useState(dayjs());
 
   const handleSubmit = async (event) => {
@@ -31,12 +35,18 @@ export default function SignUp() {
       incription_price: data.get("incription_price"),
       beggining_date: beggining_date["$d"],
     };
-    const response = await create_new_tournament(new_tournament);
+    console.log("new_tournamnent => ", new_tournament);
+    try {
+      const response = await create_new_tournament(new_tournament);
+      console.log("response => ", response);
+      if (response.success) {
+        router.push("/pages/AdminHome");
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
-  const handledate = (e) => {
-    console.log("value", e);
-  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

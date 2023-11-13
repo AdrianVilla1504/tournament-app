@@ -52,7 +52,7 @@ function Navbar({ role }) {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {role === "ADMIN" ? (
                 <Button
-                  /* onClick={create_tournament()} */
+                  onClick={() => create_tournament()}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
                   Create new tournament
