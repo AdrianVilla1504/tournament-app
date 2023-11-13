@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import Box from "@mui/material/Box";
@@ -9,36 +9,76 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { create_new_tournament } from "@/services/tournaments";
+import {
+  get_tournament_by_id,
+  create_new_tournament,
+  edit_existing_tournament,
+} from "@/services/tournaments";
 
-export default function SignUp() {
+function TournamentForm({ tournament_id_to_edit }) {
   const router = useRouter();
+  const [beggining_date, set_beggining_date] = useState({});
+  const [existing_tournament, set_existing_tournament] = useState({});
+  useEffect(() => {
+    const tournament = async () => {
+      await get_tournament_by_id(tournament_id_to_edit).then((response) => {
+        set_existing_tournament(response);
+      });
+    };
 
-  const [beggining_date, set_beggining_date] = useState(dayjs());
+    if (tournament_id_to_edit) tournament();
+  }, [tournament_id_to_edit]);
 
-  const handleSubmit = async (event) => {
+  const handle_edit_existing_tournament = async (event) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const edited_tournament = {};
+    if (data.get("name")) edited_tournament.name = data.get("name");
+    if (data.get("city")) edited_tournament.city = data.get("city");
+    if (data.get("tennis_court"))
+      edited_tournament.tennis_court = data.get("tennis_court");
+    if (data.get("max_contestants"))
+      edited_tournament.max_contestants = data.get("max_contestants");
+    if (data.get("inscryption_price"))
+      edited_tournament.inscryption_price = data.get("inscryption_price");
+    if (beggining_date["$d"])
+      edited_tournament.beggining_date = beggining_date["$d"];
+
+    try {
+      const response = await edit_existing_tournament(
+        tournament_id_to_edit,
+        edited_tournament
+      );
+      if (response.success) {
+        router.push("/pages/AdminHome");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handle_submit_new_tournament = async (event) => {
+    event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     const new_tournament = {
       name: data.get("name"),
       city: data.get("city"),
       tennis_court: data.get("tennis_court"),
       max_contestants: data.get("max_contestants"),
-      incription_price: data.get("incription_price"),
+      inscryption_price: data.get("inscryption_price"),
       beggining_date: beggining_date["$d"],
     };
-    console.log("new_tournamnent => ", new_tournament);
+
     try {
       const response = await create_new_tournament(new_tournament);
-      console.log("response => ", response);
       if (response.success) {
         router.push("/pages/AdminHome");
       }
@@ -64,7 +104,16 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={
+            tournament_id_to_edit
+              ? handle_edit_existing_tournament
+              : handle_submit_new_tournament
+          }
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -73,7 +122,9 @@ export default function SignUp() {
                 id="name"
                 label="Tournament name"
                 name="name"
-                autoComplete="email"
+                placeholder={
+                  existing_tournament ? existing_tournament.name : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -84,6 +135,9 @@ export default function SignUp() {
                 name="city"
                 label="City"
                 type="text"
+                placeholder={
+                  existing_tournament ? existing_tournament.city : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,6 +148,9 @@ export default function SignUp() {
                 type="text"
                 name="tennis_court"
                 label="Tennis court"
+                placeholder={
+                  existing_tournament ? existing_tournament.tennis_court : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,17 +161,26 @@ export default function SignUp() {
                 type="number"
                 name="max_contestants"
                 label="Maximum contestants"
-                autoComplete="new-password"
+                placeholder={
+                  existing_tournament
+                    ? String(existing_tournament.max_contestants)
+                    : String(0)
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="incription_price"
-                name="incription_price"
+                id="inscryption_price"
+                name="inscryption_price"
                 fullWidth
                 label="Price"
                 autoFocus
+                placeholder={
+                  existing_tournament
+                    ? String(existing_tournament.inscryption_price)
+                    : String(0)
+                }
               />
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -124,6 +190,11 @@ export default function SignUp() {
                   name="beggining_date"
                   label="Beggining date"
                   disablePast
+                  defaultValue={
+                    existing_tournament
+                      ? dayjs(existing_tournament.beggining_date)
+                      : null
+                  }
                   onChange={(date) => set_beggining_date(date)}
                 />
               </Grid>
@@ -132,23 +203,18 @@ export default function SignUp() {
             <Grid item xs={12}></Grid>
           </Grid>
           <Button
-            id="create_torunament_button"
+            id="create_tournament_button"
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Create new tournament
+            {existing_tournament ? "Edit tournament" : "Create new tournament"}
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
   );
 }
+
+export default TournamentForm;

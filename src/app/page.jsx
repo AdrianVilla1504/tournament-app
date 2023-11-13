@@ -35,6 +35,8 @@ async function HomePage() {
                 tennis_court={tournament.tennis_court}
                 registered_contestants={tournament.registered_contestants}
                 max_contestants={tournament.max_contestants}
+                inscyption_price={tournament.inscyption_price}
+                beggining_date={tournament.beggining_date}
               />
             ))}
           </Grid>

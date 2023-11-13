@@ -12,6 +12,8 @@ function TournamentCard({
   tennis_court,
   registered_contestants,
   max_contestants,
+  inscryption_price,
+  beggining_date,
   role,
 }) {
   return (
@@ -46,8 +48,16 @@ function TournamentCard({
             <span style={{ fontWeight: "bolder" }}>Maximum contestans: </span>
             {max_contestants}
           </p>
+          <p>
+            <span style={{ fontWeight: "bolder" }}>Inscryption price: </span>
+            {inscryption_price}
+          </p>
+          <p>
+            <span style={{ fontWeight: "bolder" }}>Beggining date: </span>
+            {new Date(beggining_date).toDateString()}
+          </p>
         </CardContent>
-        <TournamentCardButtons role={role} />
+        <TournamentCardButtons _id={_id} role={role} />
       </Card>
     </Grid>
   );

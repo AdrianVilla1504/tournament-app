@@ -12,6 +12,16 @@ export async function get_tournaments() {
   }
 }
 
+export async function get_tournament_by_id(id) {
+  try {
+    const response = await fetch(`${BASE_API_URL}/tournaments/${id}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching tournamnets: ", error);
+  }
+}
+
 export async function create_new_tournament(new_tournament) {
   try {
     const response = await fetch(`${BASE_API_URL}/tournaments`, {
@@ -27,5 +37,23 @@ export async function create_new_tournament(new_tournament) {
     return response.json();
   } catch (error) {
     console.error("Error creating tournament: ", error);
+  }
+}
+
+export async function edit_existing_tournament(id, updated_fields) {
+  try {
+    const response = await fetch(`${BASE_API_URL}/tournaments/${id}`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updated_fields),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error updating existing tournament: ", error);
   }
 }
