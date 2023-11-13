@@ -1,11 +1,12 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import Navbar from "@/components/Navbar";
 import Container from "@mui/material/Container";
-import { get_tournaments } from "@/services/tournaments";
+import Typography from "@mui/material/Typography";
 import HeroHomePage from "@/components/HeroHomePage";
 import TournamentCard from "@/components/TournamentCard";
-import Navbar from "@/components/Navbar";
+
+import { get_tournaments } from "@/services/tournaments";
 
 async function AdminHome() {
   const user = {
@@ -26,6 +27,7 @@ async function AdminHome() {
           <Grid container spacing={4}>
             {tournaments.map((tournament) => (
               <TournamentCard
+                role={user.role}
                 key={tournament._id}
                 _id={tournament._id}
                 name={tournament.name}
@@ -38,7 +40,6 @@ async function AdminHome() {
           </Grid>
         </Container>
       </main>
-
       <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer

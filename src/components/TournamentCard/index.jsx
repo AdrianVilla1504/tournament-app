@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import SingUpTournamentButton from "@/components/SignUpTournamentButton/index";
+import TournamentCardButtons from "@/components/TournamentCardButtons/index";
 
 function TournamentCard({
   _id,
@@ -47,7 +47,7 @@ function TournamentCard({
             {max_contestants}
           </p>
         </CardContent>
-        <SingUpTournamentButton /* tournament={tournament} */ />
+        <TournamentCardButtons role={role} />
       </Card>
     </Grid>
   );

@@ -27,6 +27,7 @@ async function HomePage() {
           <Grid container spacing={4}>
             {tournaments.map((tournament) => (
               <TournamentCard
+                role={user.role}
                 key={tournament._id}
                 _id={tournament._id}
                 name={tournament.name}
