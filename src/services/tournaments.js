@@ -57,3 +57,21 @@ export async function edit_existing_tournament(id, updated_fields) {
     console.error("Error updating existing tournament: ", error);
   }
 }
+
+export async function delete_tournaments(id_array) {
+  try {
+    const response = await fetch(`${BASE_API_URL}/tournaments`, {
+      method: "DELETE",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id_array),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error updating existing tournament: ", error);
+  }
+}
