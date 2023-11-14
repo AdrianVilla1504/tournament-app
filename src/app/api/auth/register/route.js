@@ -37,9 +37,13 @@ export async function POST(request) {
       password: hashed_pass,
     });
 
-    const savedUser = await new_user.save();
-
-    return NextResponse.json(savedUser);
+    const saved_user = await new_user.save();
+    if (saved_user._id) {
+      return NextResponse.json({
+        success: true,
+        fullname: saved_user.fullname,
+      });
+    }
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message }, { status: 400 });
