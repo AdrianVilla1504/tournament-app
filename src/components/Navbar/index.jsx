@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -14,6 +15,7 @@ import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 
 function Navbar({ role }) {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const create_tournament = () => {
     router.push("/pages/CreateTournament");
   };

@@ -21,7 +21,7 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       required: [true, "Fullname is required"],
-      minLength: [6, "Fullname must be at least 6 characters"],
+      minLength: [3, "Fullname must be at least 3 characters"],
       maxLength: [30, "Fullname must be at most 50 characters"],
     },
     role: {
@@ -38,6 +38,4 @@ const userSchema = new Schema(
   }
 );
 
-const User = models.User || model("User", userSchema);
-
-export default model("User", userSchema);
+export default models.User || model("User", userSchema);

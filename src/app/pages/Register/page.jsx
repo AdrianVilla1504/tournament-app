@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,15 +19,28 @@ function Register() {
   const router = useRouter();
   const handleSubmitUser = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    const new_user = {
-      fullname: data.get("fullname"),
-      email: data.get("email"),
-      password: data.get("password"),
-    };
-    const registered_user = await register_new_user(new_user);
-    if (registered_user.success) return router.push("/");
+    try {
+      const data = new FormData(event.currentTarget);
+      const new_user = {
+        fullname: data.get("fullname"),
+        email: data.get("email"),
+        password: data.get("password"),
+      };
+      const registered_user = await register_new_user(new_user).then(
+        async (response) => {
+          if (response.success) {
+            const next_auth_login = await signIn("credentials", {
+              email: new_user.email,
+              password: new_user.password,
+              redirect: false,
+            });
+            if (next_auth_login?.ok) return router.push("/");
+          }
+        }
+      );
+    } catch (error) {
+      throw new Error("Register error ", error);
+    }
   };
 
   return (
