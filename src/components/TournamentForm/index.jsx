@@ -46,8 +46,8 @@ function TournamentForm({ tournament_id_to_edit }) {
       edited_tournament.tennis_court = data.get("tennis_court");
     if (data.get("max_contestants"))
       edited_tournament.max_contestants = data.get("max_contestants");
-    if (data.get("inscryption_price"))
-      edited_tournament.inscryption_price = data.get("inscryption_price");
+    if (data.get("inscription_price"))
+      edited_tournament.inscription_price = data.get("inscription_price");
     if (beggining_date["$d"])
       edited_tournament.beggining_date = beggining_date["$d"];
 
@@ -73,7 +73,7 @@ function TournamentForm({ tournament_id_to_edit }) {
       city: data.get("city"),
       tennis_court: data.get("tennis_court"),
       max_contestants: data.get("max_contestants"),
-      inscryption_price: data.get("inscryption_price"),
+      inscription_price: data.get("inscription_price"),
       beggining_date: beggining_date["$d"],
     };
 
@@ -171,14 +171,14 @@ function TournamentForm({ tournament_id_to_edit }) {
             <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="inscryption_price"
-                name="inscryption_price"
+                id="inscription_price"
+                name="inscription_price"
                 fullWidth
                 label="Price"
                 autoFocus
                 placeholder={
                   existing_tournament
-                    ? String(existing_tournament.inscryption_price)
+                    ? String(existing_tournament.inscription_price)
                     : String(0)
                 }
               />

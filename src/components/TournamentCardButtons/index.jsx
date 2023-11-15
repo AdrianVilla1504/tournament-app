@@ -13,8 +13,12 @@ function TournamentCardButtons({ _id }) {
       router.push("/");
     },
   });
-  const sing_up_tournament = () => {
-    router.push("/");
+  const sing_up_tournament = (id) => {
+    if (session?.user.id) {
+      router.push(`/pages/PaymentConfirmSignUp/${id}`);
+    } else {
+      router.push(`/api/auth/signin`);
+    }
   };
 
   const edit_tournament = (id) => {
@@ -27,22 +31,24 @@ function TournamentCardButtons({ _id }) {
   };
 
   return (
-    <CardActions>
-      {session?.user.role !== "ADMIN" ? (
-        <Button size="small" onClick={() => sing_up_tournament()}>
-          Sing up
-        </Button>
-      ) : (
-        <>
-          <Button size="small" onClick={() => edit_tournament(_id)}>
-            Edit
+    <>
+      <CardActions>
+        {session?.user.role !== "ADMIN" ? (
+          <Button size="small" onClick={() => sing_up_tournament(_id)}>
+            Sing up
           </Button>
-          <Button size="small" onClick={() => delete_tournament()}>
-            Delete
-          </Button>
-        </>
-      )}
-    </CardActions>
+        ) : (
+          <>
+            <Button size="small" onClick={() => edit_tournament(_id)}>
+              Edit
+            </Button>
+            <Button size="small" onClick={() => delete_tournament()}>
+              Delete
+            </Button>
+          </>
+        )}
+      </CardActions>
+    </>
   );
 }
 

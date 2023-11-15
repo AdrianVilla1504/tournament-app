@@ -11,7 +11,7 @@ function TournamentCard({
   tennis_court,
   registered_contestants,
   max_contestants,
-  inscryption_price,
+  inscription_price,
   beggining_date,
 }) {
   return (
@@ -47,8 +47,8 @@ function TournamentCard({
             {max_contestants}
           </p>
           <p>
-            <span style={{ fontWeight: "bolder" }}>Inscryption price: </span>
-            {inscryption_price}
+            <span style={{ fontWeight: "bolder" }}>inscription price: </span>
+            {inscription_price} <span>USD </span>
           </p>
           <p>
             <span style={{ fontWeight: "bolder" }}>Beggining date: </span>

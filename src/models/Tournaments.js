@@ -26,9 +26,9 @@ const tournamentSchema = new Schema(
       type: Number,
       default: 0,
     },
-    inscryption_price: {
+    inscription_price: {
       type: Number,
-      required: [true, "An inscryption price is required"],
+      required: [true, "An inscription price is required"],
     },
     beggining_date: {
       type: Date,
