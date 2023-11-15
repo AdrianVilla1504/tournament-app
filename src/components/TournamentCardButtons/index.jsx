@@ -1,12 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { delete_tournaments } from "@/services/tournaments";
 
-function TournamentCardButtons({ _id, role }) {
+function TournamentCardButtons({ _id }) {
   const router = useRouter();
-
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
   const sing_up_tournament = () => {
     router.push("/");
   };
@@ -22,7 +28,7 @@ function TournamentCardButtons({ _id, role }) {
 
   return (
     <CardActions>
-      {role === "USER" ? (
+      {session?.user.role !== "ADMIN" ? (
         <Button size="small" onClick={() => sing_up_tournament()}>
           Sing up
         </Button>

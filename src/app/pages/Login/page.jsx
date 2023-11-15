@@ -1,5 +1,7 @@
 "use client";
 import * as React from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,9 +16,25 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 
 function Login() {
-  const handleSubmit = (event) => {
+  const router = useRouter();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    try {
+      const data = new FormData(event.currentTarget);
+      const user_credentials = {
+        email: data.get("email"),
+        password: data.get("password"),
+        redirect: false,
+      };
+      const login = await signIn("credentials", user_credentials).then(
+        (response) => {
+          if (response?.error) alert(response);
+          if (response?.ok) return router.push("/");
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -79,10 +97,6 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"

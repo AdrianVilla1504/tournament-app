@@ -9,25 +9,17 @@ import TournamentCard from "@/components/TournamentCard";
 import Navbar from "@/components/Navbar";
 
 async function HomePage() {
-  const user = {
-    _id: 1,
-    name: "hugo",
-    email: "hugo@gmail.com",
-    role: "USER",
-  };
-
   const tournaments = await get_tournaments();
 
   return (
     <>
-      <Navbar role={user.role} />
+      <Navbar />
       <main>
         <HeroHomePage />
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {tournaments.map((tournament) => (
               <TournamentCard
-                role={user.role}
                 key={tournament._id}
                 _id={tournament._id}
                 name={tournament.name}

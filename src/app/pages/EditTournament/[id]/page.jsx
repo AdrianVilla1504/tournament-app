@@ -2,6 +2,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Navbar from "@/components/Navbar";
@@ -10,19 +11,38 @@ import Typography from "@mui/material/Typography";
 import TournamentForm from "@/components/TournamentForm";
 
 function EditTournament() {
-  const user = {
-    _id: 2,
-    name: "nathan",
-    email: "nathan@gmail.com",
-    role: "ADMIN",
-  };
   const { id } = useParams();
+  const { data: session } = useSession({
+    required: true,
+  });
 
   const tournament_id_to_edit = id;
 
+  if (session?.user.id && session?.user.role !== "ADMIN") {
+    return (
+      <>
+        <Navbar />
+        <main>
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              pt: 20,
+              pb: 20,
+              height: "200px",
+            }}
+          >
+            <Typography variant="h1" align="center" color="black" gutterBottom>
+              Unauthorized
+            </Typography>
+          </Box>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
-      <Navbar role={user.role} />
+      <Navbar />
       <main>
         <Box
           sx={{

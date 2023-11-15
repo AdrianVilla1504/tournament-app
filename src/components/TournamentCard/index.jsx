@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -14,7 +13,6 @@ function TournamentCard({
   max_contestants,
   inscryption_price,
   beggining_date,
-  role,
 }) {
   return (
     <Grid item key={_id} xs={12} sm={6} md={4}>
@@ -57,7 +55,7 @@ function TournamentCard({
             {new Date(beggining_date).toDateString()}
           </p>
         </CardContent>
-        <TournamentCardButtons _id={_id} role={role} />
+        <TournamentCardButtons _id={_id} />
       </Card>
     </Grid>
   );
