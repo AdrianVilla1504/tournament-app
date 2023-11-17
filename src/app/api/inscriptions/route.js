@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/utils/mongoose";
-import { ObjectId } from "mongodb";
 import Inscriptions from "@/models/Inscriptions";
 
 export async function POST(req) {

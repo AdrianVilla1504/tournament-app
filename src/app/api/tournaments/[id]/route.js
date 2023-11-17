@@ -1,35 +1,44 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { connectDB } from "@/utils/mongoose";
-import Tournament from "@/models/Tournaments";
+import User from "@/models/Tournaments";
 
 export async function GET(req, { params }) {
-  try {
-    connectDB();
-    const tournament_found = await Tournament.findById(new ObjectId(params.id));
-    if (!tournament_found) {
-      return NextResponse.json(
-        {
-          message: "Tournament not found",
-        },
-        {
-          status: 404,
-        }
-      );
-    }
+  const token = await next_auth_credentials_token(req);
+  const auth_role = token?._doc.role;
+  if (auth_role !== "ADMIN") {
+    return NextResponse.json(
+      { auth_error: "user not authorized !" },
+      { status: 401 }
+    );
+  } else {
+    try {
+      connectDB();
+      const tournament_found = await User.findById(new ObjectId(params.id));
+      if (!tournament_found) {
+        return NextResponse.json(
+          {
+            message: "User not found",
+          },
+          {
+            status: 404,
+          }
+        );
+      }
 
-    return NextResponse.json(tournament_found);
-  } catch (error) {
-    return NextResponse.json(error.message, {
-      status: 400,
-    });
+      return NextResponse.json(tournament_found);
+    } catch (error) {
+      return NextResponse.json(error.message, {
+        status: 400,
+      });
+    }
   }
 }
 
 export async function PUT(req, { params }) {
   try {
     const data = await req.json();
-    const updated_tournament = await Tournament.findByIdAndUpdate(
+    const updated_tournament = await User.findByIdAndUpdate(
       new ObjectId(params.id),
       data,
       {
@@ -43,10 +52,4 @@ export async function PUT(req, { params }) {
       status: 400,
     });
   }
-}
-
-export function DELETE(req, { params }) {
-  return NextResponse.json({
-    message: "Delete tournament ...",
-  });
 }
