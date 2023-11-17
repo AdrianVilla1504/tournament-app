@@ -3,8 +3,8 @@ import { connectDB } from "@/utils/mongoose";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
 
-export async function POST(request) {
-  const { fullname, email, password } = await request.json();
+export async function POST(req) {
+  const { fullname, email, password } = await req.json();
 
   if (!password || password.length < 6) {
     return NextResponse.json(
@@ -39,10 +39,13 @@ export async function POST(request) {
 
     const saved_user = await new_user.save();
     if (saved_user._id) {
-      return NextResponse.json({
-        success: true,
-        fullname: saved_user.fullname,
-      });
+      return NextResponse.json(
+        {
+          success: true,
+          fullname: saved_user.fullname,
+        },
+        { status: 201 }
+      );
     }
   } catch (error) {
     if (error instanceof Error) {
