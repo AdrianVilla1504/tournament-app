@@ -1,5 +1,12 @@
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export async function get_users() {
+  try {
+    const response = await fetch(`${BASE_API_URL}/users`);
+    return response.json();
+  } catch (error) {}
+}
+
 export async function register_new_user(new_user) {
   try {
     const response = await fetch(`${BASE_API_URL}/auth/register`, {

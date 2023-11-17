@@ -14,6 +14,6 @@ export async function GET(req) {
     );
   } else {
     const users = await User.find();
-    return NextResponse.json(users);
+    return NextResponse.json({ users: users }, { status: 200 });
   }
 }

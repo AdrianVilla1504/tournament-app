@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getServerSession } from "next-auth";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -22,18 +21,31 @@ function Navbar() {
       router.push("/");
     },
   });
+
+  useEffect(() => {
+    if (session?.user.role === "ADMIN") {
+      router.push("/pages/AdminHome");
+    } else if (session?.user.role === "USER") {
+      router.push("/");
+    }
+  }, [router, session]);
+
   const create_tournament = () => {
     router.push("/pages/CreateTournament");
   };
+
   const login_redirect = () => {
     router.push("/api/auth/signin");
   };
+
   const register_redirect = () => {
     router.push("/pages/Register");
   };
+
   const logout_redirect = () => {
     router.push("/api/auth/signout");
   };
+
   return (
     <>
       <AppBar position="fixed">

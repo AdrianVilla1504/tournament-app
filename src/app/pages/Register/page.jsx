@@ -14,7 +14,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { register_new_user } from "@/services/user";
+import { register_new_user } from "@/services/users";
 function Register() {
   const router = useRouter();
   const handleSubmitUser = async (event) => {
