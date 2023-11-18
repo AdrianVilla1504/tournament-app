@@ -9,7 +9,7 @@ import TournamentCard from "@/components/TournamentCard";
 import { get_tournaments } from "@/services/tournaments";
 
 async function AdminHome() {
-  const tournaments = await get_tournaments();
+  const fetch_tournaments = await get_tournaments();
 
   return (
     <>
@@ -18,7 +18,7 @@ async function AdminHome() {
         <HeroHomePage />
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {tournaments.map((tournament) => (
+            {fetch_tournaments?.tournaments?.map((tournament) => (
               <TournamentCard
                 key={tournament._id}
                 _id={tournament._id}

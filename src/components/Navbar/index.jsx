@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
@@ -15,17 +15,18 @@ import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 
 function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession({
     required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
   });
 
   useEffect(() => {
-    if (session?.user.role === "ADMIN") {
-      router.push("/pages/AdminHome");
-    } else if (session?.user.role === "USER") {
+    if (
+      session?.user.role !== "ADMIN" &&
+      (pathname === "/pages/CreateTournament" ||
+        pathname === "/pages/AdminHome/Users" ||
+        pathname === "/pages/AdminHome/Users/EditUser")
+    ) {
       router.push("/");
     }
   }, [router, session]);
@@ -44,6 +45,27 @@ function Navbar() {
 
   const logout_redirect = () => {
     router.push("/api/auth/signout");
+  };
+
+  const button_panel_setter = (pathname) => {
+    switch (pathname) {
+      case "/pages/AdminHome":
+        return "to users panel";
+      case "/pages/AdminHome/Users":
+        return "to tournaments panel";
+      default:
+        return "back";
+    }
+  };
+
+  const change_admin_panel = () => {
+    if (pathname === "/pages/AdminHome") {
+      return router.push("/pages/AdminHome/Users");
+    } else if (pathname === "/pages/AdminHome/Users") {
+      return router.push("/pages/AdminHome");
+    } else {
+      return router.back();
+    }
   };
 
   return (
@@ -80,14 +102,22 @@ function Navbar() {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {session?.user.role !== "ADMIN" ? (
-                <></>
+                ""
               ) : (
-                <Button
-                  onClick={() => create_tournament()}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  Create new tournament
-                </Button>
+                <>
+                  <Button
+                    onClick={() => change_admin_panel()}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Go {button_panel_setter(pathname)}
+                  </Button>
+                  <Button
+                    onClick={() => create_tournament()}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Create new tournament
+                  </Button>
+                </>
               )}
             </Box>
 

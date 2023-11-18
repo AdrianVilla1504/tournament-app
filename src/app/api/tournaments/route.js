@@ -7,20 +7,20 @@ import Tournament from "@/models/Tournaments.js";
 export async function GET(req) {
   connectDB();
   const tournaments = await Tournament.find();
-  return NextResponse.json(tournaments);
+  return NextResponse.json({ tournaments }, { status: 200 });
 }
 
 export async function POST(req) {
+  connectDB();
   const token = await next_auth_credentials_token(req);
   const auth_role = token?._doc.role;
-  if (auth_role !== "ADMIN") {
+  if (!token || (token && auth_role !== "ADMIN")) {
     return NextResponse.json(
       { auth_error: "user not authorized !" },
       { status: 401 }
     );
-  } else {
+  } else if (token && auth_role === "ADMIN") {
     try {
-      connectDB();
       const data = await req.json();
       const new_tournament = new Tournament(data);
       const saved_tournament = await new_tournament.save();
@@ -35,14 +35,16 @@ export async function POST(req) {
 }
 
 export async function DELETE(req) {
+  connectDB();
   const token = await next_auth_credentials_token(req);
   const auth_role = token?._doc.role;
-  if (token && auth_role !== "ADMIN") {
+  if (!token || (token && auth_role !== "ADMIN")) {
     return NextResponse.json(
       { auth_error: "user not authorized !" },
       { status: 401 }
     );
-  } else {
+  }
+  if (token && auth_role === "ADMIN") {
     try {
       const data = await req.json();
       const ids_to_delete = data.ids_to_delete.map((id) => new ObjectId(id));

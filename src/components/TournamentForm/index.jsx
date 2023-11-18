@@ -35,7 +35,10 @@ function TournamentForm({ tournament_id_to_edit }) {
 
     if (tournament_id_to_edit) tournament();
   }, [tournament_id_to_edit]);
-
+  useEffect(() => {
+    const parsed_date_to_form = dayjs(existing_tournament.beggining_date);
+    existing_tournament.beggining_date = parsed_date_to_form;
+  }, [existing_tournament, existing_tournament.beggining_date]);
   const handle_edit_existing_tournament = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -123,7 +126,7 @@ function TournamentForm({ tournament_id_to_edit }) {
                 label="Tournament name"
                 name="name"
                 placeholder={
-                  existing_tournament ? existing_tournament.name : ""
+                  existing_tournament?.name ? existing_tournament.name : ""
                 }
               />
             </Grid>
@@ -136,7 +139,7 @@ function TournamentForm({ tournament_id_to_edit }) {
                 label="City"
                 type="text"
                 placeholder={
-                  existing_tournament ? existing_tournament.city : ""
+                  existing_tournament?.city ? existing_tournament.city : ""
                 }
               />
             </Grid>
@@ -149,7 +152,9 @@ function TournamentForm({ tournament_id_to_edit }) {
                 name="tennis_court"
                 label="Tennis court"
                 placeholder={
-                  existing_tournament ? existing_tournament.tennis_court : ""
+                  existing_tournament?.tennis_court
+                    ? existing_tournament.tennis_court
+                    : ""
                 }
               />
             </Grid>
@@ -162,7 +167,7 @@ function TournamentForm({ tournament_id_to_edit }) {
                 name="max_contestants"
                 label="Maximum contestants"
                 placeholder={
-                  existing_tournament
+                  existing_tournament?.max_contestants
                     ? String(existing_tournament.max_contestants)
                     : String(0)
                 }
@@ -177,7 +182,7 @@ function TournamentForm({ tournament_id_to_edit }) {
                 label="Price"
                 autoFocus
                 placeholder={
-                  existing_tournament
+                  existing_tournament?.inscription_price
                     ? String(existing_tournament.inscription_price)
                     : String(0)
                 }
@@ -191,7 +196,7 @@ function TournamentForm({ tournament_id_to_edit }) {
                   label="Beggining date"
                   disablePast
                   defaultValue={
-                    existing_tournament
+                    existing_tournament?.beggining_date
                       ? dayjs(existing_tournament.beggining_date)
                       : null
                   }
@@ -209,7 +214,9 @@ function TournamentForm({ tournament_id_to_edit }) {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {existing_tournament ? "Edit tournament" : "Create new tournament"}
+            {existing_tournament?._id
+              ? "Edit tournament"
+              : "Create new tournament"}
           </Button>
         </Box>
       </Box>

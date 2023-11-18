@@ -7,12 +7,7 @@ import { delete_tournaments } from "@/services/tournaments";
 
 function TournamentCardButtons({ _id }) {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const sing_up_tournament = (id) => {
     if (session?.user.id) {
       router.push(`/pages/PaymentConfirmSignUp/${id}`);
