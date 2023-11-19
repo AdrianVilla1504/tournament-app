@@ -16,9 +16,7 @@ import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session } = useSession({
-    required: true,
-  });
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (
