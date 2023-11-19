@@ -28,8 +28,8 @@ function Login() {
       };
       const login = await signIn("credentials", user_credentials).then(
         (response) => {
-          if (response?.error) alert(response);
           if (response?.ok) return router.push("/");
+          if (response?.error) return alert(response.error);
         }
       );
     } catch (error) {
