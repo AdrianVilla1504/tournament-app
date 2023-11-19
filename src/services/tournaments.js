@@ -3,7 +3,12 @@ const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function get_tournaments() {
   try {
     const response = await fetch(`${BASE_API_URL}/tournaments`, {
+      mode: "cors",
       cache: "no-store",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     const data = await response.json();
     return data;
@@ -14,7 +19,14 @@ export async function get_tournaments() {
 
 export async function get_tournament_by_id(id) {
   try {
-    const response = await fetch(`${BASE_API_URL}/tournaments/${id}`);
+    const response = await fetch(`${BASE_API_URL}/tournaments/${id}`, {
+      mode: "cors",
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
     return data;
   } catch (error) {
