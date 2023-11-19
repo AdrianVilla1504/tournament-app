@@ -19,13 +19,23 @@ function Navbar() {
   const { data: session } = useSession();
 
   useEffect(() => {
+    if (!session && pathname !== "/") {
+      return router.push("/");
+    }
+
     if (
+      session?.user.role === "ADMIN" &&
+      (pathname === "/" || pathname === "/pages/PaymentConfirmSignUp")
+    ) {
+      return router.push("/pages/AdminHome");
+    } else if (
       session?.user.role !== "ADMIN" &&
-      (pathname === "/pages/CreateTournament" ||
+      (pathname === "/pages/AdminHome" ||
+        pathname === "/pages/CreateTournament" ||
         pathname === "/pages/AdminHome/Users" ||
         pathname === "/pages/AdminHome/Users/EditUser")
     ) {
-      router.push("/");
+      return router.push("/");
     }
   }, [router, session]);
 

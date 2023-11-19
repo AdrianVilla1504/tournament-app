@@ -2,24 +2,21 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { connectDB } from "@/utils/mongoose";
 import { next_auth_credentials_token } from "@/utils/nextAuthMiddleware";
-import User from "@/models/Tournaments";
+import Tournament from "@/models/Tournaments";
 
 export async function GET(req, { params }) {
   connectDB();
   const token = await next_auth_credentials_token(req);
-  const auth_role = token?._doc.role;
-  if (!token || (token && auth_role !== "ADMIN")) {
-    return NextResponse.json(
-      { auth_error: "user not authorized !" },
-      { status: 401 }
-    );
-  } else if (token && auth_role === "ADMIN") {
+
+  if (token) {
     try {
-      const tournament_found = await User.findById(new ObjectId(params.id));
+      const tournament_found = await Tournament.findById(
+        new ObjectId(params.id)
+      );
       if (!tournament_found) {
         return NextResponse.json(
           {
-            message: "User not found",
+            message: "Tournament not found",
           },
           {
             status: 404,
@@ -33,22 +30,21 @@ export async function GET(req, { params }) {
         status: 400,
       });
     }
+  } else {
+    return NextResponse.json({
+      auth_error: "Not authorized",
+      status: 401,
+    });
   }
 }
 
 export async function PUT(req, { params }) {
   connectDB();
   const token = await next_auth_credentials_token(req);
-  const auth_role = token?._doc.role;
-  if (!token || (token && auth_role !== "ADMIN")) {
-    return NextResponse.json(
-      { auth_error: "user not authorized !" },
-      { status: 401 }
-    );
-  } else if (token && auth_role === "ADMIN") {
+  if (token) {
     try {
       const data = await req.json();
-      const updated_tournament = await User.findByIdAndUpdate(
+      const updated_tournament = await Tournament.findByIdAndUpdate(
         new ObjectId(params.id),
         data,
         {
@@ -62,5 +58,10 @@ export async function PUT(req, { params }) {
         status: 400,
       });
     }
+  } else {
+    return NextResponse.json({
+      auth_error: "Not authorized",
+      status: 401,
+    });
   }
 }
