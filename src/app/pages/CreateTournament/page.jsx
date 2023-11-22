@@ -39,11 +39,43 @@ function CreateTournament() {
       <main>
         <Box
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             bgcolor: "background.paper",
             pt: 8,
             pb: 6,
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              bgcolor: "background.paper",
+              width: 500,
+            }}
+          >
+            <Typography
+              sx={{
+                pt: 8,
+                color: "black",
+                fontWeight: 600,
+                fontSize: 30,
+              }}
+              align="center"
+            >
+              Create tournament form
+            </Typography>
+            <Typography
+              sx={{
+                color: "black",
+              }}
+              align="center"
+            >
+              Fill <b>all the inputs provided</b> to create a new tournament.
+            </Typography>
+          </Box>
           <TournamentForm />
         </Box>
       </main>

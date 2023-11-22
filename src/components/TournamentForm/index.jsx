@@ -9,7 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -24,21 +24,23 @@ import {
 
 function TournamentForm({ tournament_id_to_edit }) {
   const router = useRouter();
-  const [beggining_date, set_beggining_date] = useState({});
   const [existing_tournament, set_existing_tournament] = useState({});
+  const [loader, setLoader] = useState(true);
+
   useEffect(() => {
     const tournament = async () => {
       await get_tournament_by_id(tournament_id_to_edit).then((response) => {
         set_existing_tournament(response);
+        setLoader(false);
       });
     };
 
+    if (!tournament_id_to_edit) {
+      setLoader(false);
+    }
     if (tournament_id_to_edit) tournament();
   }, [tournament_id_to_edit]);
-  useEffect(() => {
-    const parsed_date_to_form = dayjs(existing_tournament.beggining_date);
-    existing_tournament.beggining_date = parsed_date_to_form;
-  }, [existing_tournament, existing_tournament.beggining_date]);
+
   const handle_edit_existing_tournament = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -101,124 +103,122 @@ function TournamentForm({ tournament_id_to_edit }) {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={
-            tournament_id_to_edit
-              ? handle_edit_existing_tournament
-              : handle_submit_new_tournament
-          }
-          sx={{ mt: 3 }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="name"
-                label="Tournament name"
-                name="name"
-                placeholder={
-                  existing_tournament?.name ? existing_tournament.name : ""
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="city"
-                name="city"
-                label="City"
-                type="text"
-                placeholder={
-                  existing_tournament?.city ? existing_tournament.city : ""
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="tennis_court"
-                type="text"
-                name="tennis_court"
-                label="Tennis court"
-                placeholder={
-                  existing_tournament?.tennis_court
-                    ? existing_tournament.tennis_court
-                    : ""
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="max_contestants"
-                type="number"
-                name="max_contestants"
-                label="Maximum contestants"
-                placeholder={
-                  existing_tournament?.max_contestants
-                    ? String(existing_tournament.max_contestants)
-                    : String(0)
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="inscription_price"
-                name="inscription_price"
-                fullWidth
-                label="Price"
-                autoFocus
-                placeholder={
-                  existing_tournament?.inscription_price
-                    ? String(existing_tournament.inscription_price)
-                    : String(0)
-                }
-              />
-            </Grid>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Grid item xs={12} sm={6}>
-                <DatePicker
-                  id="beggining_date"
-                  name="beggining_date"
-                  label="Beggining date"
-                  disablePast
+        {loader ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            component="form"
+            noValidate
+            onSubmit={
+              tournament_id_to_edit
+                ? handle_edit_existing_tournament
+                : handle_submit_new_tournament
+            }
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  label="Tournament name"
+                  name="name"
                   defaultValue={
-                    existing_tournament?.beggining_date
-                      ? dayjs(existing_tournament.beggining_date)
-                      : null
+                    existing_tournament?.name ? existing_tournament.name : ""
                   }
-                  onChange={(date) => set_beggining_date(date)}
                 />
               </Grid>
-            </LocalizationProvider>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="city"
+                  name="city"
+                  label="City"
+                  type="text"
+                  defaultValue={
+                    existing_tournament?.city ? existing_tournament.city : ""
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="tennis_court"
+                  type="text"
+                  name="tennis_court"
+                  label="Tennis court"
+                  defaultValue={
+                    existing_tournament?.tennis_court
+                      ? existing_tournament.tennis_court
+                      : ""
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="max_contestants"
+                  type="number"
+                  name="max_contestants"
+                  label="Maximum contestants"
+                  defaultValue={
+                    existing_tournament?.max_contestants
+                      ? String(existing_tournament.max_contestants)
+                      : String(0)
+                  }
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="inscription_price"
+                  name="inscription_price"
+                  fullWidth
+                  label="Price"
+                  autoFocus
+                  defaultValue={
+                    existing_tournament?.inscription_price
+                      ? String(existing_tournament.inscription_price)
+                      : String(0)
+                  }
+                />
+              </Grid>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Grid item xs={12} sm={6}>
+                  <DatePicker
+                    id="beggining_date"
+                    name="beggining_date"
+                    label="Beggining date"
+                    disablePast
+                    defaultValue={
+                      existing_tournament?.beggining_date
+                        ? dayjs(existing_tournament?.beggining_date)
+                        : null
+                    }
+                    onChange={(date) => set_beggining_date(date)}
+                  />
+                </Grid>
+              </LocalizationProvider>
 
-            <Grid item xs={12}></Grid>
-          </Grid>
-          <Button
-            id="create_tournament_button"
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            {existing_tournament?._id
-              ? "Edit tournament"
-              : "Create new tournament"}
-          </Button>
-        </Box>
+              <Grid item xs={12}></Grid>
+            </Grid>
+            <Button
+              id="create_tournament_button"
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {existing_tournament?._id
+                ? "Edit tournament"
+                : "Create new tournament"}
+            </Button>
+          </Box>
+        )}
       </Box>
     </Container>
   );

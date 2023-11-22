@@ -76,6 +76,17 @@ function FormEditUser({ user_id_to_edit }) {
         <Typography component="h1" variant="h5" color="black">
           Update User
         </Typography>
+        <Typography
+          sx={{
+            color: "black",
+            paddingBottom: 2,
+          }}
+          align="center"
+        >
+          Click on the inputs to see the old data on the corresponding field,
+          only fill what you want to change, and after that click on UPDATE USER
+          button.
+        </Typography>
         <Box
           component="form"
           noValidate

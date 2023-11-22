@@ -46,11 +46,45 @@ function EditTournament() {
       <main>
         <Box
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             bgcolor: "background.paper",
             pt: 8,
             pb: 6,
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              bgcolor: "background.paper",
+              width: 500,
+            }}
+          >
+            <Typography
+              sx={{
+                pt: 8,
+                color: "black",
+                fontWeight: 600,
+                fontSize: 30,
+              }}
+              align="center"
+            >
+              Edit tournament form
+            </Typography>
+            <Typography
+              sx={{
+                color: "black",
+              }}
+              align="center"
+            >
+              Click on the inputs to see the old data on the corresponding
+              field, <b>only fill what you want to change</b>, and after that
+              click on EDIT TOURNAMENT.
+            </Typography>
+          </Box>
           <TournamentForm tournament_id_to_edit={tournament_id_to_edit} />
         </Box>
       </main>

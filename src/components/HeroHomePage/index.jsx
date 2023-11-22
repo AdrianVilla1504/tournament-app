@@ -20,7 +20,7 @@ function HeroHomePage() {
           color="text.primary"
           gutterBottom
         >
-          Tournament App
+          Tournament App Admin panel
         </Typography>
         <Typography
           variant="h5"
@@ -28,7 +28,7 @@ function HeroHomePage() {
           color="text.secondary"
           paragraph
         >
-          Your favorite website for searching and enrol to tennis tournaments.
+          Welcome to Tournament App admin panel.
         </Typography>
         <Stack
           sx={{ pt: 4 }}
