@@ -38,7 +38,6 @@ function Navbar() {
       return router.push("/");
     }
   }, [router, session]);
-
   const create_tournament = () => {
     router.push("/pages/CreateTournament");
   };
@@ -128,7 +127,21 @@ function Navbar() {
                 </>
               )}
             </Box>
-
+            {session?.user ? (
+              <Box sx={{ display: "flex", marginRight: "30px" }}>
+                <Typography sx={{ paddingX: "3px" }}>Welcome</Typography>
+                {session?.user?.role === "ADMIN" ? (
+                  <Typography>to user admin panel</Typography>
+                ) : (
+                  ""
+                )}
+                <Typography sx={{ fontWeight: 600, paddingX: "3px" }}>
+                  {session?.user?.name}
+                </Typography>
+              </Box>
+            ) : (
+              <></>
+            )}
             <Box sx={{ display: "flex" }}>
               {session?.user.id ? (
                 <>
@@ -155,11 +168,6 @@ function Navbar() {
                   </Button>
                 </>
               )}
-              <Tooltip title="Profile pic">
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
             </Box>
           </Toolbar>
         </Container>

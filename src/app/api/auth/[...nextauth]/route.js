@@ -41,6 +41,7 @@ const handler = NextAuth({
         session.user.role = token._doc.role;
         session.user.email = token.email;
         session.user.id = token._doc._id;
+        session.user.name = token._doc.fullname;
       }
       return session;
     },
