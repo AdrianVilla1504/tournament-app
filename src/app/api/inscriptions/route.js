@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/utils/mongoose";
-import Inscriptions from "@/models/Inscriptions";
+import { next_auth_credentials_token } from "@/utils/nextAuthMiddleware";
+import Inscription from "@/models/Inscriptions";
 
 export async function POST(req) {
   const token = await next_auth_credentials_token(req);
@@ -10,11 +11,11 @@ export async function POST(req) {
       { auth_error: "user not authorized !" },
       { status: 401 }
     );
-  } else if (token && auth_role === USER) {
+  } else if (token && auth_role === "USER") {
     try {
       connectDB();
       const data = await req.json();
-      const new_inscription = new Inscriptions(data);
+      const new_inscription = new Inscription(data);
       const saved_inscription = await new_inscription.save();
       return NextResponse.json(
         { success: true, saved_inscription },

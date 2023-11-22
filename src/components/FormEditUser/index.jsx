@@ -41,10 +41,12 @@ function FormEditUser({ user_id_to_edit }) {
         updated_fields
       ).then((response) => {
         if (response.success) {
+          alert(`User ${response?.updated_user?.fullname} updated. !`);
           return router.push("/pages/AdminHome/Users");
         }
       });
     } catch (error) {
+      alert(`Error updating user!`);
       throw new Error("Register error ", error);
     }
   };

@@ -87,7 +87,7 @@ function PaymentConfirmSignUp() {
         return router.push("/");
       } else {
         alert(`Sign up error`);
-        return console.log(String(response));
+        return console.error(String(response));
       }
     } catch (error) {
       alert(`Sign up error`);

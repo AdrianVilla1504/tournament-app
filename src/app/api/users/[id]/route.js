@@ -50,10 +50,8 @@ export async function PUT(req, { params }) {
     );
   } else if (token && auth_role === "ADMIN") {
     try {
-      let hashed_pass;
       const data = await req.json();
       const { fullname, email, password } = data;
-
       if (password && password.length < 6) {
         return NextResponse.json(
           {
@@ -63,11 +61,9 @@ export async function PUT(req, { params }) {
             status: 400,
           }
         );
-      } else if (password && password >= 6) {
-        hashed_pass = await bcrypt.hash(password, 12);
       }
+      const hashed_pass = await bcrypt.hash(password, 12);
       const updated_fields = {};
-
       if (fullname) updated_fields.fullname = fullname;
       if (email) updated_fields.email = email;
       if (hashed_pass) updated_fields.password = hashed_pass;
