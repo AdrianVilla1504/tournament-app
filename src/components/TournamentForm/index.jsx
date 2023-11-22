@@ -25,18 +25,18 @@ import {
 function TournamentForm({ tournament_id_to_edit }) {
   const router = useRouter();
   const [existing_tournament, set_existing_tournament] = useState({});
-  const [loader, setLoader] = useState(true);
+  const [loader, set_loader] = useState(true);
 
   useEffect(() => {
     const tournament = async () => {
       await get_tournament_by_id(tournament_id_to_edit).then((response) => {
         set_existing_tournament(response);
-        setLoader(false);
+        set_loader(false);
       });
     };
 
     if (!tournament_id_to_edit) {
-      setLoader(false);
+      set_loader(false);
     }
     if (tournament_id_to_edit) tournament();
   }, [tournament_id_to_edit]);

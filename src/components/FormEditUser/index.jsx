@@ -10,20 +10,27 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import CircularProgress from "@mui/material/CircularProgress";
 import { get_user_by_id, update_existing_user } from "@/services/users";
 
 function FormEditUser({ user_id_to_edit }) {
   const router = useRouter();
   const [existing_user, set_existing_user] = useState({});
+  const [loader, set_loader] = useState(true);
 
   useEffect(() => {
     const user = async () => {
       await get_user_by_id(user_id_to_edit).then((response) => {
         if (response.success) {
           set_existing_user(response.user);
+          set_loader(false);
         }
       });
     };
+
+    if (!user_id_to_edit) {
+      set_loader(false);
+    }
 
     if (user_id_to_edit) user();
   }, [user_id_to_edit]);
@@ -87,56 +94,60 @@ function FormEditUser({ user_id_to_edit }) {
           only fill what you want to change, and after that click on UPDATE USER
           button.
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={handleSubmitFields}
-          sx={{ mt: 3 }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                id="fullname"
-                name="fullname"
-                required
-                fullWidth
-                label="Full name"
-                autoFocus
-                placeholder={existing_user ? existing_user.fullname : ""}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="email"
-                label="Email Address"
-                name="email"
-                required
-                fullWidth
-                placeholder={existing_user ? existing_user.email : ""}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                placeholder="Replace forgotten password"
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+        {loader ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmitFields}
+            sx={{ mt: 3 }}
           >
-            Update user
-          </Button>
-        </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  id="fullname"
+                  name="fullname"
+                  required
+                  fullWidth
+                  label="Full name"
+                  autoFocus
+                  defaultValue={existing_user ? existing_user.fullname : ""}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  required
+                  fullWidth
+                  defaultValue={existing_user ? existing_user.email : ""}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  placeholder="Replace forgotten password"
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Update user
+            </Button>
+          </Box>
+        )}
       </Box>
     </Container>
   );
