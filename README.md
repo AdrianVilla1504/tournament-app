@@ -2,24 +2,25 @@
 
 ![Project Image](/public/project_preview.png)
 
-<!-- > Project preview -->
-
 ---
 
 ### Table of Contents
 
-You're sections headers will be used to reference location of destination.
-
 - [Description](#description)
+- [Used technologies](#used-technologies)
 - [Installation](#installation)
-- [License](#license)
+- [Considerations](#considerations)
 - [Author Info](#author-info)
 
 ---
 
 ## Description
 
-Web application for a tennis league. The system will cater to two types of users: Administrators and Regular Users. Administrators manage tournaments and users, while Regular Users can view and register for tournaments.
+Web application for a tennis league. The system caters to two types of users: Administrators and Regular Users. Administrators manage tournaments and users, while Regular Users can view and sign up for tournaments.
+
+---
+
+## Used technologies
 
 #### Code language
 
@@ -109,11 +110,21 @@ NEXTAUTH_SECRET = "A_random_string_for_JWT"; // => Example "RANDOM987"
 
 [Back To The Top](#tournament-app)
 
-## License
+---
 
-MIT License
+## Considerations
 
-###### Copyright (c) 2023 Adrian Villa
+- I used the entire Next.js function ecosystem, both on the frontend and backend, to extract and leverage its potential with server-side rendering for fetching data.
+
+- Additionally, I implemented NEXT AUTH for authentication due to its compatibility with the Next.js ecosystem and the possibility of OAuth integration.
+
+- In terms of principles, particularly abstraction, I applied SOLID principles. The interface segregation principle was used to pass through props only what was necessary, and the single responsibility principle guided the reuse of functionalities like data fetching or posting. I also created components such as `<HeroHomePage/>`, fulfilling its respective functionality as implied by its name. In addition functions depend on the `API URL`, which is obtained from environment variables `(process.env.NEXT_PUBLIC_API_URL)`. This allows for dependency inversion, as the code does not depend directly on a specific URL but retrieves the URL from an external provider.
+
+- As a design pattern, I employed MVC (Model-View-Controller) for developing the application in a modular and maintainable manner. The separation of concerns between frontend and backend into distinct components facilitates easier management and enables changes on either side without interference. Consequently, the application is scalable, maintainable, and more straightforward to expand.
+
+- I opted for Material UI for styling due to its ease of interface development, component readability, and the presence of a robust ecosystem with support.
+
+- Finally, I used Mongoose as an ODM since it was specifically designed for MongoDB, ensuring greater compatibility.
 
 [Back To The Top](#tournament-app)
 

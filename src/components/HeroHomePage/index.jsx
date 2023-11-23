@@ -1,9 +1,12 @@
+"use client";
+import { useSession } from "next-auth/react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 function HeroHomePage() {
+  const { data: session } = useSession();
   return (
     <Box
       sx={{
@@ -20,7 +23,9 @@ function HeroHomePage() {
           color="text.primary"
           gutterBottom
         >
-          Tournament App Admin panel
+          {session?.user?.role !== "ADMIN" || !session
+            ? "Tournament App"
+            : "Tournament App Admin panel"}
         </Typography>
         <Typography
           variant="h5"
@@ -28,7 +33,9 @@ function HeroHomePage() {
           color="text.secondary"
           paragraph
         >
-          Welcome to Tournament App admin panel.
+          {session?.user?.role !== "ADMIN" || !session
+            ? "Your favorite website for searching and enrol to tennis tournaments."
+            : "Welcome to Tournament App admin panel."}
         </Typography>
         <Stack
           sx={{ pt: 4 }}
