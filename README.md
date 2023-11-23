@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tournament App
 
-## Getting Started
+![Project Image](/public/project_preview.png)
 
-First, run the development server:
+<!-- > Project preview -->
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+### Table of Contents
+
+You're sections headers will be used to reference location of destination.
+
+- [Description](#description)
+- [Installation](#installation)
+- [License](#license)
+- [Author Info](#author-info)
+
+---
+
+## Description
+
+Web application for a tennis league. The system will cater to two types of users: Administrators and Regular Users. Administrators manage tournaments and users, while Regular Users can view and register for tournaments.
+
+#### Code language
+
+- Javascript
+
+#### Database and ODM
+
+- MongoDB 6.0
+- Mongoose 8.0.0
+
+#### Execution enviroment
+
+- Node 20.9.0
+
+#### Frameworks and libraries
+
+- Next 14.0.2
+- Material UI (with Day js 1.11.10)
+
+#### Authentication
+
+- Next auth 4.24.5 (with JWT)
+- Bcrypt 2.4.3
+
+#### Package manager
+
+- npm
+
+###### Dependencies preview
+
+```json
+"dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.17",
+    "@mui/x-date-pickers": "^6.18.1",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.10",
+    "mongoose": "^8.0.0",
+    "next": "14.0.2",
+    "next-auth": "^4.24.5",
+    "react": "^18",
+    "react-dom": "^18"
+  }
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Back To The Top](#tournament-app)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+##### Clone the repository
 
-To learn more about Next.js, take a look at the following resources:
+- First of all, clone the repository on your local with
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```node
+git clone git@github.com:AdrianVilla1504/tournament-app.git
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- If you don't have a ssh key related with your github account you could use:
 
-## Deploy on Vercel
+```node
+git clone https://github.com/AdrianVilla1504/tournament-app.git
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##### Create the .env.local file
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- You must create the .env.local file on the root folder, with the following variables:
+
+```node
+DB_HOST = "Your mongo db URI"; // Example => "mongodb://localhost/tournamentApp"
+NEXT_PUBLIC_API_URL = "Your_domain/api"; // => Example "http://localhost:3000"
+NEXTAUTH_SECRET = "A_random_string_for_JWT"; // => Example "RANDOM987"
+```
+
+##### Install dependencies
+
+- Execute `npm install` or `npm i` in your terminal on the root folder to install all packages configured on the `package.json`.
+
+##### Run the project
+
+- Run on the root of your project `npm run dev`, and on your terminal you should see this:
+
+![Success runing project terminal preview](/public/success_terminal_preview.png)
+
+[Back To The Top](#tournament-app)
+
+## License
+
+MIT License
+
+###### Copyright (c) 2023 Adrian Villa
+
+[Back To The Top](#tournament-app)
+
+---
+
+## Author Info
+
+- LinkedIn - [Adrian Camilo Villa Jimenez](https://www.linkedin.com/in/adrian-villa-776783175/)
+- Website - [Adrian Villa Dev](https://adrian-villa-dev-portfolio.vercel.app/)
+
+[Back To The Top](#tournament-app)
